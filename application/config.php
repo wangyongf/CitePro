@@ -132,7 +132,7 @@ return [
 
     // 视图输出字符串内容替换
     'view_replace_str' => [
-        '__PUBLIC__' => '/ps/LaoMaWeb/public/',
+        '__PUBLIC__' => '/ps/CitePro/public/static/',
         '__ROOT__' => '/',
         '__HOME__' => '/admin',
         '__JS__' => '/admin/js',
