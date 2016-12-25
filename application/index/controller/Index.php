@@ -10,7 +10,8 @@ class Index
 {
     public function index()
     {
-        return "<html><a target='_blank' href='http://localhost/ps/CitePro/public/Index/Index/generateWord'>点击生成Word</a> </html>";
+//        return view('admin@main/main');
+        return view('index/index');
     }
 
     /**

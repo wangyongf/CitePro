@@ -35,6 +35,22 @@ class Main extends Controller
     }
 
     /**
+     * 登录
+     */
+    public function signin()
+    {
+        return view('main/signin');
+    }
+
+    /**
+     * 注册
+     */
+    public function signup()
+    {
+        return view('main/signup');
+    }
+
+    /**
      * 生成Word文件
      *
      */
