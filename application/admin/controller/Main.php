@@ -56,34 +56,6 @@ class Main extends Controller
      */
     public function generateWord()
     {
-        //获取表单内容
-        $title1 = input('input1');
-        $body1 = input('textarea1');
-
-        $title2 = input('input2');
-        $body2 = input('textarea2');
-
-        $title3 = input('input3');
-        $body3 = input('textarea3');
-
-        $title4 = input('input4');
-        $body4 = input('textarea4');
-
-        $title5 = input('input5');
-        $body5 = input('textarea5');
-
-        $title6 = input('input6');
-        $body6 = input('textarea6');
-
-        $title7 = input('input7');
-        $body7 = input('textarea7');
-
-        $title8 = input('input8');
-        $body8 = input('textarea8');
-
-        $title9 = input('input9');
-        $body9 = input('textarea9');
-
         $phpWord = new PhpWord();
 
         $section = $phpWord->addSection();
@@ -92,8 +64,11 @@ class Main extends Controller
         $phpWord->setDefaultFontName("宋体");         //设置默认字体宋体
         $phpWord->setDefaultFontSize(12);               //小四
         $styleTOC = array('tabLeader' => TOC::TAB_LEADER_DOT);
+        $phpWord->addTitleStyle(1, array('size' => 20, 'bold' => true, 'name' => '宋体'));
         $phpWord->addTitleStyle(2, array('size' => 16, 'bold' => true, 'name' => '宋体'));
         $phpWord->addTitleStyle(3, array('size' => 12, 'bold' => true, 'name' => '宋体'));
+        $phpWord->addTitleStyle(4, array('size' => 8, 'bold' => true, 'name' => '宋体'));
+        $phpWord->addTitleStyle(5, array('size' => 4, 'bold' => true, 'name' => '宋体'));
 
         //添加页脚
         $footer = $section->addFooter();
@@ -103,81 +78,44 @@ class Main extends Controller
         $section->addText("目录", array(), array('alignment' => Jc::CENTER));
         $section->addTOC(array(), $styleTOC);
 
-        $section->addPageBreak();
+//        $section->addPageBreak();
 
-        $section->addTitle($title1, 2);
-        $section->addText($body1,
-            null,
-            array('indentation' => array('firstLine' => 480))
-        );
+        //添加内容
+        $lastOption = -1;
+        $count = input('count');                        //项目个数
+        for ($i = 1; $i <= $count; $i++) {
+            $option = intval(input('select' . $i));
+            switch ($option) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    if ($option == 1) {
+                        $section->addPageBreak();
+                    }
+                    $section->addTitle(input('input' . $i), $option);
+                    $section->addLine();
+                    $section->addText(input('textarea' . $i),
+                        null,
+                        array('indentation' => array('firstLine' => 480))
+                    );
+                    $section->addLine();
 
-        $section->addPageBreak();
-
-        $section->addTitle($title2, 2);
-        $section->addText($body2,
-            null,
-            array('indentation' => array('firstLine' => 480))
-        );
-
-        $section->addPageBreak();
-
-        $section->addTitle($title3, 2);
-        $section->addText($body3,
-            null,
-            array('indentation' => array('firstLine' => 480))
-        );
-
-        $section->addPageBreak();
-
-        $section->addTitle($title4, 3);
-        $section->addText($body4,
-            null,
-            array('indentation' => array('firstLine' => 480))
-        );
-
-        $section->addPageBreak();
-
-        $section->addTitle($title5, 3);
-        $section->addText($body5,
-            null,
-            array('indentation' => array('firstLine' => 480))
-        );
-
-        $section->addPageBreak();
-
-        $section->addTitle($title6, 2);
-        $section->addText(
-            $body6,
-            null,
-            array('indentation' => array('firstLine' => 480))
-        );
-
-        $section->addPageBreak();
-
-        $section->addTitle($title7, 3);
-        $section->addText(
-            $body7,
-            null,
-            array('indentation' => array('firstLine' => 480))
-        );
-
-        $section->addPageBreak();
-
-        $section->addTitle($title8, 3);
-        $section->addText(
-            $body8,
-            null,
-            array('indentation' => array('firstLine' => 480))
-        );
-
-        $section->addPageBreak();
-
-        $section->addTitle($title9, 2);
-        $section->addText(
-            $body9,
-            null,
-            array('indentation' => array('firstLine' => 480))
-        );
+                    $lastOption = $option;
+                    break;
+                case 6:
+                    $section->addLine();
+                    $section->addText(input('textarea' . $i),
+                        null,
+                        array('indentation' => array('firstLine' => 480))
+                    );
+                    $section->addLine();
+//                    $section->addPageBreak();
+                    $lastOption = $option;
+                    break;
+            }
+        }
 
         $fileName = "论文小助手Pro" . date("YmdHis") . ".docx";
         $phpWord->save($fileName, "Word2007", true);
